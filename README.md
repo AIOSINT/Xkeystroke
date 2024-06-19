@@ -32,3 +32,8 @@ Xkeystroke is an advanced Open Source Intelligence (OSINT) tool designed to faci
 - **Vector Maps**: Vector maps and information gathering maps with related interests.
 - **User Experience**: Beautiful UI design and customizable user UI profiles for the best experience.
 - **Documentation and Tutorials**: Comprehensive user manual and API documentation, video tutorials and walkthroughs, and community forum and support.
+
+## Install
+```bash
+script code here "check which system then check all deps and inst /w scripts"
+```
