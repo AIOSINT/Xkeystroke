@@ -4,6 +4,8 @@ Xkeystroke is an advanced Open Source Intelligence (OSINT) tool designed to faci
 
 ## Features
 
+https://osintframework.com/
+
 ### Core Features
 - **Web Interface**: User-friendly dashboard, multi-user support with role-based access control, and customizable themes (6 different themes).
 - **Data Scraping**: Support for scraping various data sources (websites, forums, social media, etc.), dynamic content handling (JavaScript rendering), proxy and CAPTCHA handling (premade proxy chains up to 20), scheduled scraping tasks, real-time data scraping, and prompting users in a separate window to complete CAPTCHAs when needed.
