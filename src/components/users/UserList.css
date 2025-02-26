@@ -1,0 +1,912 @@
+.user-list-container {
+    max-width: 1200px;
+    max-height: 85vh;
+    margin: 0 auto;
+    padding: 30px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    position: relative;
+    z-index: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-backdrop-filter: none;
+}
+
+.user-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.user-list-container::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.table-header-group {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.95);
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.table-header-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.header-flex-container {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    font-family: 'Courier New', monospace;
+}
+
+.terminal-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.terminal-prompt {
+    color: #00ff00;
+    font-size: 2em;
+    position: relative;
+}
+
+.terminal-prompt::after {
+    content: '_';
+    position: absolute;
+    right: -5px;
+    animation: terminalBlink 1s infinite;
+}
+
+.user-list-container h2 {
+    color: #fff;
+    text-align: left;
+    font-size: 2em;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    text-transform: lowercase;
+    position: relative;
+}
+
+.user-list-container h2::after {
+    content: '_';
+    position: absolute;
+    right: -15px;
+    animation: blink 0.5s step-end infinite;
+}
+
+.terminal-success {
+    color: #00ff00;
+    font-size: 1em;
+    margin-left: 20px;
+    opacity: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    width: 0;
+    animation: 
+        typing 1.5s steps(50, end) forwards,
+        wait 2s 1.5s,
+        deleteText 1.5s steps(50, end) 3.5s forwards;
+    max-width: fit-content;
+}
+
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes deleteText {
+    from { width: 100% }
+    to { width: 0 }
+}
+
+@keyframes wait {
+    from, to { width: 100% }
+}
+
+.success-message {
+    font-size: 0.9em;
+    padding: 8px 15px;
+    margin: 0;
+    max-width: 300px;
+}
+
+.table-columns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 10px;
+}
+
+.column-header {
+    flex: 0 0 auto;
+    padding: 0 10px;
+}
+
+.column-header:nth-child(1) { width: 50px; }  /* Checkbox */
+.column-header:nth-child(2) { width: 150px; } /* Username */
+.column-header:nth-child(3) { width: 100px; } /* Role */
+.column-header:nth-child(4) { width: 250px; } /* UUID */
+.column-header:nth-child(5) { width: 100px; } /* Password */
+.column-header:nth-child(6) { width: 250px; } /* Actions */
+
+.checkbox-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 20px;
+    font-size: 1em;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    font-family: 'Courier New', monospace;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+.user-table th,
+.user-table td {
+    padding: 8px 12px;
+    text-align: left;
+    color: #fff;
+    height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Column widths */
+.user-table th:nth-child(1),
+.user-table td:nth-child(1) {
+    width: 15%;  /* Username */
+}
+
+.user-table th:nth-child(2),
+.user-table td:nth-child(2) {
+    width: 10%;  /* Role */
+}
+
+.user-table th:nth-child(3),
+.user-table td:nth-child(3) {
+    width: 25%;  /* UUID */
+}
+
+.user-table th:nth-child(4),
+.user-table td:nth-child(4) {
+    width: 15%;  /* Password */
+}
+
+.user-table th:nth-child(5),
+.user-table td:nth-child(5) {
+    width: 35%;  /* Actions */
+}
+
+.user-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.user-actions button {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.role-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.uuid, .password-display {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Ensure text content doesn't get cut off */
+.user-table td > span,
+.user-table td > div {
+    width: 100%;
+    padding: 8px 0;
+}
+
+.user-card {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+}
+
+.user-info {
+    margin-bottom: 15px;
+}
+
+.username-role-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.username {
+    font-size: 1.2em;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    line-height: 1;
+}
+
+.role {
+    font-size: 0.8em;
+    font-family: 'Minecraft', 'Courier New', monospace;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin: 0;
+    line-height: 1;
+}
+
+.role-admin {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.role-user {
+    color: #ff8c00;
+}
+
+.uuid:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.uuid::after,
+.password-display::after {
+    content: 'Copied!';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(0, 255, 0, 0.2);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.uuid.copied::after,
+.password-display.copied::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.uuid, .password-display {
+    font-family: 'Courier New', monospace;
+    position: relative;
+    cursor: pointer;
+}
+
+.btn-delete,
+.btn-change {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+}
+
+.btn-delete {
+    background: linear-gradient(45deg, #ff0000, #cc0000);
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+}
+
+.btn-change {
+    background: linear-gradient(45deg, #ffa500, #ff8c00);
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+    background: linear-gradient(45deg, #ff1a1a, #e60000);
+}
+
+.btn-change:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+    background: linear-gradient(45deg, #ffb733, #ffa500);
+}
+
+.error {
+    text-align: center;
+    color: #ff4500;
+    margin: 20px 0;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 69, 0, 0.1);
+    border: 1px solid rgba(255, 69, 0, 0.3);
+}
+
+#backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.checkmark {
+    color: #00ff00;
+    font-size: 0.8em;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+}
+
+.checkmark.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.checkmark.hide {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+.password-display {
+    position: relative;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+.password-display:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.password-tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: white;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    z-index: 10;
+}
+
+.password-display:hover .password-tooltip {
+    opacity: 1;
+    top: -35px;
+}
+
+.password-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(0, 0, 0, 0.9);
+}
+
+.password-display.copied::after {
+    content: 'Copied!';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 255, 0, 0.2);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    opacity: 1;
+    pointer-events: none;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: rgba(20, 20, 20, 0.95);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+    color: #ff4500;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+}
+
+.modal-message {
+    color: white;
+    margin-bottom: 25px;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-confirm {
+    background: linear-gradient(45deg, #ff0000, #cc0000);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.modal-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+}
+
+.modal-confirm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+.modal-cancel:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.user-table thead {
+    display: none;
+}
+
+.user-table tbody tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    margin-bottom: 5px;
+    border-radius: 4px;
+    min-height: 60px;
+}
+
+.user-table td {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    min-height: 40px;
+}
+
+/* Column widths */
+.user-table td:nth-child(1) { width: 50px; }  /* Checkbox */
+.user-table td:nth-child(2) { width: 150px; } /* Username */
+.user-table td:nth-child(3) { width: 100px; } /* Role */
+.user-table td:nth-child(4) { width: 250px; } /* UUID */
+.user-table td:nth-child(5) { width: 100px; } /* Password */
+.user-table td:nth-child(6) { width: 250px; } /* Actions */
+
+.btn-create {
+    background: linear-gradient(45deg, #00c853, #64dd17);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 200, 83, 0.3);
+    margin-left: 20px;
+}
+
+.btn-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 200, 83, 0.5);
+}
+
+.modal-form {
+    margin: 20px 0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: white;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: rgba(0, 200, 83, 0.5);
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.2);
+}
+
+select.modal-input {
+    cursor: pointer;
+}
+
+select.modal-input option {
+    background: #1a1a1a;
+    color: white;
+}
+
+.error-message, .success-message {
+    width: 100%;
+    max-width: 1140px;
+    margin: 20px auto;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    font-family: 'Courier New', monospace;
+    border-radius: 8px;
+    animation: fadeInOut 3s ease forwards;
+    backdrop-filter: blur(5px);
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.9);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+.success-message {
+    background: rgba(40, 167, 69, 0.9);
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.3);
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    15% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    85% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.current-user {
+    background: rgba(255, 0, 0, 0.05);
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0% {
+        background: rgba(255, 0, 0, 0.03);
+    }
+    50% {
+        background: rgba(255, 0, 0, 0.08);
+    }
+    100% {
+        background: rgba(255, 0, 0, 0.03);
+    }
+}
+
+.user-table tr.current-user {
+    display: flex;
+}
+
+/* Checkbox styling */
+.user-checkbox {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 140, 0, 0.5);
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.user-checkbox:checked {
+    background: rgba(255, 140, 0, 0.8);
+    border-color: rgba(255, 140, 0, 0.8);
+}
+
+.user-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.user-checkbox:hover {
+    border-color: rgba(255, 140, 0, 0.8);
+}
+
+/* Selected row styling */
+.row-selected {
+    background: rgba(255, 140, 0, 0.05);
+    animation: pulseGlowOrange 2s infinite;
+}
+
+@keyframes pulseGlowOrange {
+    0% {
+        background: rgba(255, 140, 0, 0.03);
+    }
+    50% {
+        background: rgba(255, 140, 0, 0.08);
+    }
+    100% {
+        background: rgba(255, 140, 0, 0.03);
+    }
+}
+
+/* Bulk actions container */
+.bulk-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: none;
+    position: static;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.selected-count {
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+}
+
+.role-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.role-button {
+    background: rgba(0, 157, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(0, 157, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+}
+
+.role-button:hover {
+    background: rgba(0, 157, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 157, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.role-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 160px;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.role-dropdown:hover .role-dropdown-content {
+    display: block;
+}
+
+.role-option-group {
+    padding: 5px 0;
+}
+
+.role-option-header {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8em;
+    padding: 5px 16px;
+    text-transform: uppercase;
+}
+
+.role-option {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.role-option.admin {
+    color: #ff4500;
+}
+
+.role-option.user {
+    color: #ffa500;
+}
+
+.role-option.delete {
+    color: #ff0000;
+}
+
+.role-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.role-option-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 5px 0;
+}
+  

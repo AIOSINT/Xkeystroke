@@ -1,0 +1,127 @@
+.user-list-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: blur(45px);
+    -webkit-backdrop-filter: blur(45px);
+    position: relative;
+    z-index: 1;
+}
+
+.user-list-container h2 {
+    color: #fff;
+    text-align: center;
+    font-size: 2em;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 30px;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.user-table th,
+.user-table td {
+    padding: 15px;
+    text-align: left;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-table th {
+    background: rgba(0, 0, 0, 0.3);
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.centered-input {
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    width: 150px;
+}
+
+.btn-delete,
+.btn-change {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.btn-delete {
+    background: linear-gradient(45deg, #ff4500, #ff8c00);
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+}
+
+.btn-change {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+}
+
+.btn-change:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.message {
+    text-align: center;
+    margin: 20px 0;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.3;
+}

@@ -1,0 +1,98 @@
+.navbar {
+    background-color: #343a40;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.navbar .navbar-brand {
+    font-size: 1.5rem;
+    color: #00FF00;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.navbar .nav-link {
+    color: #ffffff;
+    padding: 15px 20px;
+    line-height: 1.5;
+}
+
+.navbar .nav-link:hover {
+    color: #bbbbbb;
+}
+
+.navbar .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    background-color: #343a40;
+    right: 0;
+    left: auto;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #ffffff;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #575d63;
+}
+
+.dropdown-divider {
+    border-top: 1px solid #575d63;
+}
+
+.short-uuid {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #ffffff;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-toggle .short-uuid {
+    margin-right: 10px; /* Increase margin to add space */
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-left: 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.role-badge.admin {
+    background: linear-gradient(45deg, #ff4500, #ff8c00);
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+}
+
+.role-badge.user {
+    background: linear-gradient(45deg, #2196F3, #00BCD4);
+    color: white;
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.3);
+}
+
+/* Update the dropdown styles to accommodate the badge */
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dropdown-toggle::after {
+    margin-left: 10px;
+}
+
+#basic-nav-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

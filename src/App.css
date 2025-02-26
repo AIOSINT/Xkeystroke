@@ -1,0 +1,122 @@
+.App {
+    display: flex;
+    flex-direction: column; /* Stack navbar and content vertically */
+    height: 100vh;
+    background-color: #1e3c72; /* Set the background color */
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    margin-top: 56px; /* Add margin-top to avoid overlapping with the navbar */
+    background-color: #2a5298; /* Set the main content background color */
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 250px; /* Width of the sidebar */
+    color: white; /* Ensure text is readable */
+}
+
+.navbar {
+    background-color: #343a40; /* Header background color */
+    height: 56px; /* Set an appropriate height */
+    display: flex;
+    align-items: center; /* Vertically align items */
+    padding: 0 20px; /* Add some padding */
+}
+
+.navbar .nav-link {
+    color: #ffffff; /* Header link color */
+    padding: 15px 20px; /* Adjust padding to ensure enough space */
+    line-height: 1.5; /* Adjust line-height for better readability */
+}
+
+.navbar .nav-link:hover {
+    color: #bbbbbb; /* Header link hover color */
+}
+
+.dropdown-menu {
+    background-color: #343a40; /* Dropdown menu background color */
+    right: 0; /* Ensure the dropdown aligns to the right */
+    left: auto; /* Prevent default left alignment */
+}
+
+.dropdown-menu .dropdown-item {
+    color: #ffffff; /* Dropdown item text color */
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #575d63; /* Dropdown item hover background color */
+}
+
+.dropdown-divider {
+    border-top: 1px solid #575d63; /* Divider color */
+}
+
+.sidebar {
+    height: calc(100vh - 56px); /* Adjust height to account for navbar height */
+    width: 250px;
+    position: fixed;
+    top: 56px; /* Position below the navbar */
+    left: 0;
+    background-color: #343a40;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: background-color 0.2s;
+}
+
+.sidebar a:hover {
+    background-color: #575d63;
+}
+
+.dashboard-container {
+    padding: 20px;
+    color: white; /* Ensure text is readable */
+}
+
+.dashboard-widgets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.widget {
+    background-color: #3b5998;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+body {
+    background: linear-gradient(45deg, #000000, #1a1a1a, #2d2d2d);
+    background-size: 400% 400%;
+    animation: gradientBackground 10s ease infinite;
+    color: white;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.container {
+    padding-top: 60px; /* To prevent overlap with fixed navbar */
+}
+  
