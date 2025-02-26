@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Graph from 'react-vis-network-graph';
 import './Dashboard.css';
 
 const Dashboard = () => {
-    const [activeTheme, setActiveTheme] = useState('dark');
-    const [searchResults, setSearchResults] = useState([]);
+    const [activeTheme] = useState('dark');
     const [activeTools, setActiveTools] = useState([]);
     const [recentScans, setRecentScans] = useState([]);
-    const canvasRef = useRef(null);
     const [systemStatus, setSystemStatus] = useState({
         containers: 'healthy',
         proxyChains: 'active',
@@ -39,11 +37,9 @@ const Dashboard = () => {
             font: {
                 size: 14,
                 color: '#f8f8f2',
-                face: 'Courier New',
-                strokeWidth: 0
+                face: 'Courier New'
             },
             borderWidth: 1,
-            borderColor: '#ff79c6',
             color: {
                 background: '#282a36',
                 border: '#ff79c6',
@@ -60,11 +56,7 @@ const Dashboard = () => {
         },
         edges: {
             width: 1,
-            color: {
-                color: '#bd93f9',
-                highlight: '#ff79c6',
-                opacity: 0.8
-            },
+            color: '#bd93f9',
             smooth: {
                 type: 'cubicBezier',
                 roundness: 0.6
@@ -100,33 +92,52 @@ const Dashboard = () => {
             tooltipDelay: 200,
             zoomView: true,
             dragView: true
-        },
-        background: '#282a36'
+        }
     };
+
+    const fetchDashboardData = React.useCallback(async () => {
+        try {
+            // For now, use mock data instead of making the API call
+            const mockData = {
+                activeTools: [
+                    { name: 'Network Scanner', status: 'active', tasks: 2 },
+                    { name: 'Vulnerability Scanner', status: 'idle', tasks: 0 },
+                    { name: 'Port Scanner', status: 'active', tasks: 1 }
+                ],
+                recentScans: [
+                    { type: 'Network Scan', target: '192.168.1.0/24', status: 'completed' },
+                    { type: 'Vulnerability Assessment', target: 'example.com', status: 'in-progress' },
+                    { type: 'Port Scan', target: '10.0.0.1', status: 'queued' }
+                ],
+                systemStatus: {
+                    containers: 'healthy',
+                    proxyChains: 'active',
+                    apiConnections: 'stable'
+                }
+            };
+
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            setActiveTools(mockData.activeTools);
+            setRecentScans(mockData.recentScans);
+            setSystemStatus(mockData.systemStatus);
+
+        } catch (error) {
+            console.error('Error fetching dashboard data:', error);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchDashboardData();
+    }, [fetchDashboardData]);
 
     const events = {
         select: function(event) {
             const { nodes, edges } = event;
+            console.log('Selected nodes:', nodes);
+            console.log('Selected edges:', edges);
         }
-    };
-
-    useEffect(() => {
-        fetchDashboardData();
-    }, []);
-
-    const fetchDashboardData = async () => {
-        // Simulated data fetch
-        setActiveTools([
-            { name: 'Social Scraper', status: 'active', tasks: 3 },
-            { name: 'Dark Web Monitor', status: 'scanning', tasks: 1 },
-            { name: 'API Aggregator', status: 'idle', tasks: 0 }
-        ]);
-
-        setRecentScans([
-            { type: 'Social Profile', target: 'twitter.com/user123', status: 'complete' },
-            { type: 'Domain Analysis', target: 'example.com', status: 'in_progress' },
-            { type: 'Dark Web Scan', target: 'keyword_watch', status: 'scheduled' }
-        ]);
     };
 
     return (
@@ -145,7 +156,6 @@ const Dashboard = () => {
                     </span>
                 </div>
             </header>
-
             <div className="dashboard-grid">
                 <section className="quick-actions">
                     <h2>Quick Actions</h2>
@@ -156,7 +166,6 @@ const Dashboard = () => {
                         <button>API Dashboard</button>
                     </div>
                 </section>
-
                 <section className="active-tools">
                     <h2>Active Tools</h2>
                     <div className="tools-list">
@@ -169,7 +178,6 @@ const Dashboard = () => {
                         ))}
                     </div>
                 </section>
-
                 <section className="recent-scans">
                     <h2>Recent Scans</h2>
                     <div className="scans-list">
@@ -182,7 +190,6 @@ const Dashboard = () => {
                         ))}
                     </div>
                 </section>
-
                 <section className="data-visualization">
                     <h2>Network Analysis</h2>
                     <div className="visualization-container">
@@ -190,6 +197,7 @@ const Dashboard = () => {
                             <Graph
                                 graph={graph}
                                 options={options}
+                                events={events}
                                 style={{ height: "600px" }}
                             />
                         </div>

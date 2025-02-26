@@ -5,11 +5,9 @@ import { useHistory } from 'react-router-dom';
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
-  const [updatedUsers, setUpdatedUsers] = useState(new Set());
   const canvasRef = useRef(null);
   const [copiedId, setCopiedId] = useState(null);
   const [copiedField, setCopiedField] = useState(null);
-  const [showPassword, setShowPassword] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -25,7 +23,7 @@ const UserList = () => {
   const [selectedUsers, setSelectedUsers] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
 
-  const fetchUsers = async () => {
+  const fetchUsers = React.useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3001/users', {
         headers: {
@@ -53,7 +51,7 @@ const UserList = () => {
       setError('Error fetching users');
       console.error('Fetch error:', error);
     }
-  };
+  }, [history]);
 
   useEffect(() => {
     const userRole = localStorage.getItem('userRole');
@@ -63,7 +61,7 @@ const UserList = () => {
     }
 
     fetchUsers();
-  }, [history]);
+  }, [history, fetchUsers]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -151,70 +149,12 @@ const UserList = () => {
   useEffect(() => {
     if (!users) return;
     
-    setFilteredUsers(
-      users.filter(user => {
-        if (!user) return false;
-        
-        const searchLower = searchTerm.toLowerCase();
-        return (
-          (user.username && user.username.toLowerCase().includes(searchLower)) ||
-          (user.uuid && user.uuid.toLowerCase().includes(searchLower)) ||
-          (user.role && user.role.toLowerCase().includes(searchLower))
-        );
-      })
+    const filtered = users.filter(user => 
+      user?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user?.role?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    setFilteredUsers(filtered);
   }, [searchTerm, users]);
-
-  const handleDeleteUser = async (uuid) => {
-    try {
-      const response = await fetch(`http://localhost:3001/users/${uuid}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'user-role': localStorage.getItem('userRole'),
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        setUsers(users.filter(user => user.uuid !== uuid));
-        setFilteredUsers(filteredUsers.filter(user => user.uuid !== uuid));
-        setMessage('User deleted successfully');
-      } else {
-        setError('Error deleting user');
-      }
-    } catch (error) {
-      setError('Error deleting user');
-      console.error('Delete error:', error);
-    }
-  };
-
-  const handleChangeRole = async (user, newRole) => {
-    try {
-      const response = await fetch(`http://localhost:3001/users/${user.uuid}/role`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ newRole })
-      });
-
-      if (response.ok) {
-        setUsers(prevUsers =>
-          prevUsers.map(u =>
-            u.uuid === user.uuid ? { ...u, role: newRole } : u
-          )
-        );
-      } else {
-        setError('Failed to update role');
-      }
-    } catch (error) {
-      console.error('Error updating role:', error);
-      setError('Failed to update role');
-    }
-  };
 
   const handleCopy = async (value, uuid, field) => {
     try {
@@ -241,20 +181,24 @@ const UserList = () => {
         setCopiedId(uuid);
         setCopiedField(field);
         
+        // Show success message
+        const element = document.querySelector(`[data-uuid="${uuid}"]`);
+        if (element) {
+            element.classList.add('copied');
+        }
+
         // Reset the copied status after 2 seconds
         setTimeout(() => {
             setCopiedId(null);
             setCopiedField(null);
+            if (element) {
+                element.classList.remove('copied');
+            }
         }, 2000);
     } catch (error) {
         console.error('Copy error:', error);
         setError('Failed to copy value');
     }
-  };
-
-  const initiateDelete = (user) => {
-    setUserToDelete(user);
-    setShowDeleteModal(true);
   };
 
   const confirmDelete = async () => {
@@ -492,7 +436,6 @@ const UserList = () => {
               <div className="column-header">Role</div>
               <div className="column-header">UUID</div>
               <div className="column-header">Password</div>
-              <div className="column-header">Actions</div>
             </div>
           </div>
         </div>
@@ -508,23 +451,18 @@ const UserList = () => {
                     `}
                 >
                   <td>
-                    <div className="checkbox-container">
-                      <input
-                        type="checkbox"
-                        className="user-checkbox"
-                        checked={selectedUsers.has(user.uuid)}
-                        onChange={() => handleSelectUser(user.uuid)}
-                      />
-                    </div>
+                    <input
+                      type="checkbox"
+                      className="user-checkbox"
+                      checked={selectedUsers.has(user.uuid)}
+                      onChange={(e) => handleSelectUser(user.uuid)}
+                    />
                   </td>
                   <td>{user.username}</td>
                   <td>
                     <div className="role-container">
                       <span className={`role ${(user.role || 'user').toLowerCase() === 'admin' ? 'role-admin' : 'role-user'}`}>
                         {(user.role || 'user').toLowerCase() === 'admin' ? 'Admin' : 'User'}
-                      </span>
-                      <span className={`checkmark ${updatedUsers.has(user.uuid) ? 'show' : ''}`}>
-                        ✓
                       </span>
                     </div>
                   </td>
@@ -547,25 +485,6 @@ const UserList = () => {
                       <span className="password-tooltip">{user.password}</span>
                       {'•'.repeat(8)}
                     </span>
-                  </td>
-                  <td>
-                    <div className="user-actions">
-                      <button
-                        onClick={() => initiateDelete(user)}
-                        className="btn-delete"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleChangeRole(user, user.role?.toLowerCase() === 'admin' ? 'user' : 'admin');
-                        }}
-                        className="btn-change"
-                      >
-                        Role
-                      </button>
-                    </div>
                   </td>
                 </tr>
               )

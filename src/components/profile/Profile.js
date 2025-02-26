@@ -9,8 +9,8 @@ const Profile = () => {
     const [messageType, setMessageType] = useState('');
     const uuid = localStorage.getItem('uuid');
     const [showModal, setShowModal] = useState(false);
-    const [showOldPassword, setShowOldPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const canvasRef = useRef(null);
 
@@ -162,6 +162,30 @@ const Profile = () => {
         setShowModal(false);
     };
 
+    // Add password visibility toggle to password fields
+    const PasswordInput = ({ value, onChange, id, label, show, setShow }) => (
+        <div className="form-group">
+            <label htmlFor={id}>{label}</label>
+            <div className="password-input-group">
+                <input
+                    type={show ? "text" : "password"}
+                    id={id}
+                    value={value}
+                    onChange={onChange}
+                />
+                <button 
+                    type="button"
+                    onClick={() => setShow(!show)}
+                    className="password-toggle"
+                >
+                    <span role="img" aria-label={show ? "Hide password" : "Show password"}>
+                        {show ? "👁️" : "👁️‍🗨️"}
+                    </span>
+                </button>
+            </div>
+        </div>
+    );
+
     return (
         <>
             <canvas id="backgroundCanvas" ref={canvasRef}></canvas>
@@ -189,17 +213,14 @@ const Profile = () => {
                             className="centered-input"
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="password">New Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            placeholder="Enter new password"
-                            className="centered-input"
-                        />
-                    </div>
+                    <PasswordInput
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        id="password"
+                        label="Password"
+                        show={showPassword}
+                        setShow={setShowPassword}
+                    />
                     <button onClick={handleUpdateClick} className="btn-update">
                         Update Profile
                     </button>
