@@ -63,16 +63,17 @@ Xkeystroke is a modular application composed of several repositories, each respo
 
    This will start all services, including the frontend, backend, and any additional modules.
 
+
 ## Repositories
 
-- **[xkeystroke-ui](https://github.com/your-username/xkeystroke-ui)**: Web interface for the application.
-- **[xkeystroke-api](https://github.com/your-username/xkeystroke-api)**: Backend API and server logic.
-- **[xkeystroke-scanner](https://github.com/your-username/xkeystroke-scanner)**: File scanning and analysis module.
-- **[xkeystroke-dashboard](https://github.com/your-username/xkeystroke-dashboard)**: Dashboard UI and visualization tools.
-- **[xkeystroke-auth](https://github.com/your-username/xkeystroke-auth)**: User authentication and management.
-- **[xkeystroke-common](https://github.com/your-username/xkeystroke-common)**: Shared components and utilities.
-- **[xkeystroke-docs](https://github.com/your-username/xkeystroke-docs)**: Documentation and tutorials.
-- **[xkeystroke-ml](https://github.com/your-username/xkeystroke-ml)**: Machine learning and AI components.
+- **[xkeystroke-ui](https://github.com/aiosint/xkeystroke-ui)**: Web interface for the application.
+- **[xkeystroke-api](https://github.com/aiosint/xkeystroke-api)**: Backend API and server logic.
+- **[xkeystroke-scanner](https://github.com/aiosint/xkeystroke-scanner)**: File scanning and analysis module.
+- **[xkeystroke-dashboard](https://github.com/aiosint/xkeystroke-dashboard)**: Dashboard UI and visualization tools.
+- **[xkeystroke-auth](https://github.com/aiosint/xkeystroke-auth)**: User authentication and management.
+- **[xkeystroke-common](https://github.com/aiosint/xkeystroke-common)**: Shared components and utilities.
+- **[xkeystroke-docs](https://github.com/aiosint/xkeystroke-docs)**: Documentation and tutorials.
+- **[xkeystroke-ml](https://github.com/aiosint/xkeystroke-ml)**: Machine learning and AI components.
 
 ## Usage
 
