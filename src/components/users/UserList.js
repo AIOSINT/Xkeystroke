@@ -25,7 +25,7 @@ const UserList = () => {
 
   const fetchUsers = React.useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/users', {
+      const response = await fetch('/users', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'user-role': localStorage.getItem('userRole'),
@@ -160,7 +160,7 @@ const UserList = () => {
     try {
         // If copying password, fetch the decrypted password first
         if (field === 'password') {
-            const response = await fetch(`http://localhost:3001/users/${uuid}`, {
+            const response = await fetch(`/users/${uuid}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'user-role': localStorage.getItem('userRole'),
@@ -205,7 +205,7 @@ const UserList = () => {
     if (!userToDelete) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/users/${userToDelete.uuid}`, {
+      const response = await fetch(`/users/${userToDelete.uuid}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -231,7 +231,7 @@ const UserList = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/users', {
+      const response = await fetch('/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -303,7 +303,7 @@ const UserList = () => {
 
     try {
         const deletePromises = Array.from(selectedUsers).map(uuid =>
-            fetch(`http://localhost:3001/users/${uuid}`, {
+            fetch(`/users/${uuid}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -334,7 +334,7 @@ const UserList = () => {
 
     try {
         const updatePromises = Array.from(selectedUsers).map(uuid =>
-            fetch(`http://localhost:3001/users/${uuid}/role`, {
+            fetch(`/users/${uuid}/role`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

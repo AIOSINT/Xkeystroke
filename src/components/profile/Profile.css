@@ -1,12 +1,3 @@
-@import '../login/Auth.css';
-
-/* Override the global background gradient */
-body {
-    background: linear-gradient(225deg, #000000, #1a1a1a, #2d2d2d, #1a1a1a, #000000);
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
-}
-
 .profile-container {
     max-width: 800px;
     margin: 50px auto;
@@ -18,6 +9,13 @@ body {
     -webkit-backdrop-filter: blur(45px);
     position: relative;
     z-index: 1;
+}
+
+.profile-card {
+    max-width: 560px;
+    margin: 0 auto;
+    background: rgba(20, 22, 27, 0.86);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .profile-header {

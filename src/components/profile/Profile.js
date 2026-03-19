@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Button, Card, Classes, Dialog, FormGroup, H3, InputGroup, Intent } from "@blueprintjs/core";
 import './Profile.css';
 
 const Profile = () => {
@@ -110,7 +111,7 @@ const Profile = () => {
 
     const handleUpdateProfile = async () => {
         try {
-            const response = await fetch('http://localhost:3001/update-profile', {
+            const response = await fetch('/update-profile', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -164,116 +165,116 @@ const Profile = () => {
 
     // Add password visibility toggle to password fields
     const PasswordInput = ({ value, onChange, id, label, show, setShow }) => (
-        <div className="form-group">
-            <label htmlFor={id}>{label}</label>
-            <div className="password-input-group">
-                <input
-                    type={show ? "text" : "password"}
-                    id={id}
-                    value={value}
-                    onChange={onChange}
-                />
-                <button 
-                    type="button"
-                    onClick={() => setShow(!show)}
-                    className="password-toggle"
-                >
-                    <span role="img" aria-label={show ? "Hide password" : "Show password"}>
-                        {show ? "👁️" : "👁️‍🗨️"}
-                    </span>
-                </button>
-            </div>
-        </div>
+        <FormGroup label={label} labelFor={id}>
+            <InputGroup
+                id={id}
+                type={show ? "text" : "password"}
+                value={value}
+                onChange={onChange}
+                leftIcon="lock"
+                rightElement={
+                    <Button
+                        minimal
+                        icon={show ? "eye-off" : "eye-open"}
+                        onClick={() => setShow(!show)}
+                        aria-label={show ? "Hide password" : "Show password"}
+                    />
+                }
+            />
+        </FormGroup>
     );
 
     return (
         <>
             <canvas id="backgroundCanvas" ref={canvasRef}></canvas>
             <div className="profile-container">
-                <div className="profile-header">
-                    <h2>{username || 'Profile'}</h2>
-                </div>
-                <div className="profile-info">
-                    <div className="current-user">
-                        <span className="label-text">UUID</span>
-                        <div className="uuid-section">
-                            <span className="uuid">{uuid}</span>
-                        </div>
+                <Card className={`${Classes.DARK} profile-card`}>
+                    <div className="profile-header">
+                        <H3 style={{ margin: 0 }}>{username || 'Profile'}</H3>
                     </div>
-                </div>
-                <div className="profile-form">
-                    <div className="form-group">
-                        <label htmlFor="username">Change Username</label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={newUsername}
-                            onChange={(e) => setNewUsername(e.target.value)}
-                            placeholder={username}
-                            className="centered-input"
+
+                    <div className="profile-info">
+                        <FormGroup label="UUID">
+                            <InputGroup value={uuid || ""} readOnly leftIcon="id-number" />
+                        </FormGroup>
+                    </div>
+
+                    <div className="profile-form">
+                        <FormGroup label="Change username" labelFor="username">
+                            <InputGroup
+                                id="username"
+                                value={newUsername}
+                                onChange={(e) => setNewUsername(e.target.value)}
+                                placeholder={username}
+                                leftIcon="user"
+                            />
+                        </FormGroup>
+
+                        <PasswordInput
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            id="password"
+                            label="New password"
+                            show={showPassword}
+                            setShow={setShowPassword}
                         />
+
+                        <Button intent={Intent.PRIMARY} onClick={handleUpdateClick} fill>
+                            Update profile
+                        </Button>
+
+                        {message ? (
+                            <div className={`message ${messageType}`}>
+                                {message}
+                            </div>
+                        ) : null}
                     </div>
-                    <PasswordInput
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        id="password"
-                        label="Password"
-                        show={showPassword}
-                        setShow={setShowPassword}
-                    />
-                    <button onClick={handleUpdateClick} className="btn-update">
-                        Update Profile
-                    </button>
-                    {message && <div className={`message ${messageType}`}>{message}</div>}
-                </div>
+                </Card>
             </div>
 
-            {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3 className="modal-title">Confirm Profile Update</h3>
-                        <div className="changes-list">
-                            {newUsername && (
-                                <div className="change-item">
-                                    Username: {username} → {newUsername}
-                                </div>
-                            )}
-                            {newPassword && (
-                                <div 
-                                    className="change-item password-change"
-                                    onMouseEnter={() => setShowNewPassword(true)}
-                                    onMouseLeave={() => setShowNewPassword(false)}
-                                >
-                                    Password: {showNewPassword ? (
-                                        <span className="password-reveal">
-                                            <span className="old-password">••••••</span>
-                                            {' → '}
-                                            <span className="new-password">{newPassword}</span>
-                                        </span>
-                                    ) : (
-                                        '•••••• → ••••••'
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                        <p>Are you sure you want to update your profile?</p>
-                        <div className="modal-buttons">
-                            <button 
-                                className="modal-confirm" 
-                                onClick={handleConfirmUpdate}
+            <Dialog
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                title="Confirm profile update"
+                className={Classes.DARK}
+            >
+                <div className={Classes.DIALOG_BODY}>
+                    <div className="changes-list">
+                        {newUsername ? (
+                            <div className="change-item">
+                                Username: {username} → {newUsername}
+                            </div>
+                        ) : null}
+                        {newPassword ? (
+                            <div
+                                className="change-item password-change"
+                                onMouseEnter={() => setShowNewPassword(true)}
+                                onMouseLeave={() => setShowNewPassword(false)}
                             >
-                                Confirm
-                            </button>
-                            <button 
-                                className="modal-cancel" 
-                                onClick={() => setShowModal(false)}
-                            >
-                                Cancel
-                            </button>
-                        </div>
+                                Password:{" "}
+                                {showNewPassword ? (
+                                    <span className="password-reveal">
+                                        <span className="old-password">••••••</span>
+                                        {" → "}
+                                        <span className="new-password">{newPassword}</span>
+                                    </span>
+                                ) : (
+                                    "•••••• → ••••••"
+                                )}
+                            </div>
+                        ) : null}
+                    </div>
+                    <p style={{ marginTop: 12 }}>Are you sure you want to update your profile?</p>
+                </div>
+                <div className={Classes.DIALOG_FOOTER}>
+                    <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+                        <Button onClick={() => setShowModal(false)}>Cancel</Button>
+                        <Button intent={Intent.PRIMARY} onClick={handleConfirmUpdate}>
+                            Confirm
+                        </Button>
                     </div>
                 </div>
-            )}
+            </Dialog>
         </>
     );
 };

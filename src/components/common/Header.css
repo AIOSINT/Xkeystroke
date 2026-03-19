@@ -1,98 +1,184 @@
-.navbar {
-    background-color: #343a40;
+.app-navbar {
     height: 56px;
-    display: flex;
+    padding: 0 12px;
+}
+
+.app-brand .brand-link {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #8fddff;
+    text-decoration: none;
+}
+
+.app-brand .brand-link:hover {
+    color: #c7f0ff;
+}
+
+.user-pill {
+    display: inline-flex;
     align-items: center;
-    padding: 0 20px;
+    gap: 8px;
 }
 
-.navbar .navbar-brand {
-    font-size: 1.5rem;
-    color: #00FF00;
-    font-family: 'Courier New', Courier, monospace;
+.user-uuid {
+    opacity: 0.75;
 }
 
-.navbar .nav-link {
-    color: #ffffff;
-    padding: 15px 20px;
-    line-height: 1.5;
+.role-tag {
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
 }
 
-.navbar .nav-link:hover {
-    color: #bbbbbb;
-}
-
-.navbar .nav-item.dropdown:hover .dropdown-menu {
+.instance-add-button svg {
     display: block;
 }
 
-.dropdown-menu {
-    background-color: #343a40;
-    right: 0;
-    left: auto;
+/* Blur everything behind the settings dialog */
+.settings-portal .bp5-overlay-backdrop {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(16, 18, 22, 0.55);
 }
 
-.dropdown-menu .dropdown-item {
-    color: #ffffff;
+.templates-portal .bp5-overlay-backdrop {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(16, 18, 22, 0.55);
 }
 
-.dropdown-menu .dropdown-item:hover {
-    background-color: #575d63;
+.secure-status-portal .bp5-overlay-backdrop {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(16, 18, 22, 0.55);
 }
 
-.dropdown-divider {
-    border-top: 1px solid #575d63;
+.secure-status-button {
+    margin-right: 6px;
 }
 
-.short-uuid {
-    font-weight: bold;
-    margin-right: 5px;
-    color: #ffffff;
+.secure-status-label {
+    color: #ff9f43; /* orange */
+    font-weight: 600;
 }
 
-.dropdown-toggle {
-    display: flex;
+.secure-status-score {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.secure-status-7 {
+    color: #f1c40f; /* yellow */
+}
+
+.secure-status-slash {
+    color: rgba(255, 255, 255, 0.55); /* light gray */
+    padding: 0 1px;
+}
+
+.secure-status-10 {
+    color: #2ecc71; /* green */
+}
+
+/* Blur everything behind the instance dropdown (Popover) */
+.instance-switcher-backdrop.bp5-overlay-backdrop {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(16, 18, 22, 0.55);
+}
+
+.instance-item-actions {
+    display: inline-flex;
     align-items: center;
+    gap: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
 }
 
-.dropdown-toggle .short-uuid {
-    margin-right: 10px; /* Increase margin to add space */
+.bp5-menu-item:hover .instance-item-actions {
+    opacity: 1;
+    pointer-events: auto;
 }
 
-.role-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    margin-left: 10px;
-    border-radius: 12px;
-    font-size: 0.8em;
-    font-weight: bold;
-    text-transform: uppercase;
+.instance-icon-button {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.instance-icon-button:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.role-badge.admin {
-    background: linear-gradient(45deg, #ff4500, #ff8c00);
-    color: white;
-    box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+.instance-delete-button {
+    background: rgba(219, 55, 55, 0.22);
+    color: #ffd1d1;
 }
 
-.role-badge.user {
-    background: linear-gradient(45deg, #2196F3, #00BCD4);
-    color: white;
-    box-shadow: 0 0 10px rgba(33, 150, 243, 0.3);
+.instance-delete-button:hover {
+    background: rgba(219, 55, 55, 0.32);
 }
 
-/* Update the dropdown styles to accommodate the badge */
-.navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.8) !important;
+.instance-inline-input {
+    width: 220px;
+    max-width: 38vw;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(15, 18, 22, 0.7);
+    color: #f5f8fa;
+    outline: none;
 }
 
-.dropdown-toggle::after {
-    margin-left: 10px;
+.instance-inline-input:focus {
+    border-color: rgba(17, 165, 245, 0.65);
+    box-shadow: 0 0 0 1px rgba(17, 165, 245, 0.2);
 }
 
-#basic-nav-dropdown {
+.instance-bulk-row {
+    opacity: 0.85;
+}
+
+.instance-actions-row {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.instance-dropdown-actions {
     display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.instance-action-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.instance-action-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.instance-action-icon.active {
+    background: rgba(17, 165, 245, 0.22);
+    box-shadow: 0 0 0 1px rgba(17, 165, 245, 0.25) inset;
 }

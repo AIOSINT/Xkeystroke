@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import { Button, Card, Classes, FormGroup, InputGroup, Intent } from "@blueprintjs/core";
 import './Auth.css';
 
 const SignUp = () => {
@@ -13,7 +14,7 @@ const SignUp = () => {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:3001/signup', {
+            const response = await fetch('/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,32 +36,39 @@ const SignUp = () => {
 
     return (
         <div className="auth-container">
-            <h2>Sign Up</h2>
-            <form onSubmit={handleSignUp}>
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {error && <p className="error">{error}</p>}
-                <button type="submit" className="btn">Sign Up</button>
-            </form>
-            <p>Already have an account? <Link to="/login">Log in</Link></p>
+            <Card className={`auth-card ${Classes.DARK}`}>
+                <h2 className="auth-title">Sign Up</h2>
+                <form onSubmit={handleSignUp}>
+                    <FormGroup label="Username" labelFor="username">
+                        <InputGroup
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            autoComplete="username"
+                            leftIcon="user"
+                            required
+                        />
+                    </FormGroup>
+                    <FormGroup label="Password" labelFor="password">
+                        <InputGroup
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            autoComplete="new-password"
+                            leftIcon="lock"
+                            required
+                        />
+                    </FormGroup>
+                    {error ? <div className="auth-error">{error}</div> : null}
+                    <Button type="submit" intent={Intent.PRIMARY} fill>
+                        Create account
+                    </Button>
+                </form>
+                <p className="auth-footer">
+                    Already have an account? <Link to="/login">Log in</Link>
+                </p>
+            </Card>
         </div>
     );
 };

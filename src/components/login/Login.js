@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
+import { Button, Card, Classes, FormGroup, InputGroup, Intent } from "@blueprintjs/core";
 import './Auth.css';
 
 const Login = () => {
@@ -29,7 +30,7 @@ const Login = () => {
         try {
             console.log('Attempting login for:', username);
 
-            const response = await fetch('http://localhost:3001/login', {
+            const response = await fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,32 +80,37 @@ const Login = () => {
                 Your browser does not support the video tag.
             </video>
             <div className="auth-container">
-                <h2>Login</h2>
-                {error && <p className="error">{error}</p>}
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <button type="submit" className="btn">Login</button>
-                </form>
-                <p>
-                    Don't have an account? <Link to="/signup">Sign Up</Link>
-                </p>
+                <Card className={`auth-card ${Classes.DARK}`}>
+                    <h2 className="auth-title">Login</h2>
+                    {error ? <div className="auth-error">{error}</div> : null}
+                    <form onSubmit={handleSubmit}>
+                        <FormGroup label="Username" labelFor="username">
+                            <InputGroup
+                                id="username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                autoComplete="username"
+                                leftIcon="user"
+                            />
+                        </FormGroup>
+                        <FormGroup label="Password" labelFor="password">
+                            <InputGroup
+                                id="password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                autoComplete="current-password"
+                                leftIcon="lock"
+                            />
+                        </FormGroup>
+                        <Button type="submit" intent={Intent.PRIMARY} fill>
+                            Login
+                        </Button>
+                    </form>
+                    <p className="auth-footer">
+                        Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
+                    </p>
+                </Card>
             </div>
         </>
     );

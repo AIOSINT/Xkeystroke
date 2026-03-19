@@ -1,30 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button, Card, Classes, H3 } from "@blueprintjs/core";
 
 const NotFound = () => {
     return (
-        <div style={{
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: 'white',
-            fontFamily: 'Courier New, monospace',
-            background: 'rgba(0, 0, 0, 0.8)'
-        }}>
-            <h1>404 - Page Not Found</h1>
-            <p>The page you're looking for doesn't exist.</p>
-            <Link 
-                to="/"
-                style={{
-                    color: '#00ff00',
-                    textDecoration: 'none',
-                    marginTop: '20px'
-                }}
-            >
-                Return to Dashboard
-            </Link>
+        <div
+            className={Classes.DARK}
+            style={{
+                minHeight: 'calc(100vh - 56px)',
+                marginTop: 56,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 18,
+            }}
+        >
+            <Card style={{ maxWidth: 520, width: "100%" }}>
+                <H3 style={{ marginTop: 0 }}>404 - Page Not Found</H3>
+                <p>The page you&apos;re looking for doesn&apos;t exist.</p>
+                <Link to="/">
+                    <Button intent="primary" icon="dashboard">
+                        Return to Dashboard
+                    </Button>
+                </Link>
+            </Card>
         </div>
     );
 };

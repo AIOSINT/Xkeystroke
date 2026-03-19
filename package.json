@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@blueprintjs/core": "^5.0.0",
+    "@blueprintjs/icons": "^5.0.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "exif-reader": "^2.0.2",
@@ -21,9 +23,9 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server/server.js",
-    "client": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "client": "cross-env NODE_OPTIONS=--openssl-legacy-provider HOST=0.0.0.0 react-scripts start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -48,6 +50,7 @@
   "main": "index.js",
   "devDependencies": {
     "concurrently": "^6.2.1",
+    "cross-env": "^7.0.3",
     "react-scripts": "^3.0.1"
   },
   "keywords": [],

@@ -10,7 +10,7 @@ const UserList = () => {
 
     useEffect(() => {
         const currentUsername = localStorage.getItem('currentUsername');
-        fetch(`http://localhost:3001/users?username=${currentUsername}`)
+        fetch(`/users?username=${currentUsername}`)
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data)) {
@@ -27,7 +27,7 @@ const UserList = () => {
 
     const handleDelete = (username) => {
         const currentUsername = localStorage.getItem('currentUsername');
-        fetch(`http://localhost:3001/users/${username}?requester=${currentUsername}`, {
+        fetch(`/users/${username}?requester=${currentUsername}`, {
             method: 'DELETE'
         })
             .then((response) => response.json())
@@ -40,7 +40,7 @@ const UserList = () => {
 
     const handleChangePassword = (username) => {
         const currentUsername = localStorage.getItem('currentUsername');
-        fetch(`http://localhost:3001/users/${username}/password`, {
+        fetch(`/users/${username}/password`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ const UserList = () => {
 
     const handleChangeRole = (username) => {
         const currentUsername = localStorage.getItem('currentUsername');
-        fetch(`http://localhost:3001/users/${username}/role`, {
+        fetch(`/users/${username}/role`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

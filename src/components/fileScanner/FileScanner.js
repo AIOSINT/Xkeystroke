@@ -468,7 +468,7 @@ const FileScanner = () => {
                 }, 500);
 
                 console.log('Sending request to server...');
-                const response = await fetch('http://localhost:3001/api/scanner/scan', {
+                const response = await fetch('/api/scanner/scan', {
                     method: 'POST',
                     body: formData,
                     credentials: 'include',
